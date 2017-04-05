@@ -1,0 +1,5 @@
+/vendor
+/node_modules
+.env
+.idea/blade.xml
+.idea/dwa15-a3.iml
