@@ -22,7 +22,7 @@ class MainController extends Controller {
     {
         $v = Validator::make($request->all(),
             [
-                'numWords' => 'required|integer|between:1,20',
+                'numWords' => 'required|integer|between:1,100',
                 'numIncluded' => 'required_if:numIncludeChecked,true|integer|between:0,1000000',
                 'symbolIncluded' => 'required_if:symbolIncludeChecked,true|in:!,@,#,$,%,^'
             ]

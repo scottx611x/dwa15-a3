@@ -13,3 +13,4 @@
 
 Route::get('/', 'MainController@index');
 Route::get('/generatePassword', 'MainController@generatePassword');
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

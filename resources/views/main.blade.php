@@ -8,7 +8,7 @@
         </a>
         <br><br>
         <div class="inputs form-group">
-            <label>Number of words (REQUIRED)  <input type="number" id='numWords'/></label>
+            <label>Number of words for password generation <br><input type="number" id='numWords'/></label>
             <br>
             <label>
                 Include a number: <input id='numIncludeChecked' type="checkbox" data-toggle="switch" value="true"/>
