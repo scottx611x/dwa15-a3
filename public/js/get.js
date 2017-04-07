@@ -28,10 +28,13 @@ $(document).ready(function(){
         ).done(function(data) {
             try {
                 var errorObj = eval("(" + data + ")");
+                var errorMessages = [];
                 if (errorObj["Error"]) {
+                    for (var key in errorObj["Error"]) {
+                        errorMessages.push(errorObj["Error"][key] + '\n')
+                    }
                     $("#generated-error").modal();
-                    $("#error-container").text(errorObj["Error"]);
-                    $("#user-input-container").text(errorObj["input_value"]);
+                    $("#error-container").text(errorMessages);
                 }
             }
             catch(err) {

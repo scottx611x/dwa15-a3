@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller {
 
@@ -19,7 +20,21 @@ class MainController extends Controller {
      */
 	public function generatePassword(Request $request)
     {
-	    new PasswordGen($request, "data/words.txt");
+        $v = Validator::make($request->all(),
+            [
+                'numWords' => 'required|integer|between:1,20',
+                'numIncluded' => 'required_if:numIncludeChecked,true|integer|between:0,1000000',
+                'symbolIncluded' => 'required_if:symbolIncludeChecked,true|in:!,@,#,$,%,^'
+            ]
+        );
+
+        if ($v->fails()){
+            echo json_encode(array("Error" => $v->errors()));
+            return;
+        }
+        else {
+            new PasswordGen($request, "data/words.txt");
+        }
     }
 
 }
@@ -33,47 +48,11 @@ class PasswordGen {
          */
         # Read words into array from file
         $this->words = file($filename, FILE_IGNORE_NEW_LINES);
-        # Validate and present Errors to Client if necessary
-        $data_from_validator = $this->validate($data);
-        if($data_from_validator["Error"]){
-            # Encode data as JSON to ineract with it easier client-side
-            echo json_encode($data_from_validator);
-            return;
-        }
+
         # If we reach here data is deemed O.K. and we continue to make a pass.
-        $this->make_password($data_from_validator);
+        $this->make_password($data);
     }
-    private function validate($data_to_validate)
-    {
-        /**
-         * Private method to validate incoming data
-         */
-        if ((int)$data_to_validate['numWords'] > 20) {
-            return array(
-                "Error" => "You're way too paranoid. Try with <= 20 words!",
-                "input_value" => "You input: " . $data_to_validate['numWords']);
-        }
-        if (!is_numeric($data_to_validate['numWords']) ||
-            intval($data_to_validate['numWords']) < 0 ||
-            intval($data_to_validate['numWords']) == 0
-        ) {
-            return array(
-                "Error" => "Number of words must be a positive whole number for this to work!",
-                "input_value" => "You input: " . $data_to_validate['numWords']);
-        }
-        if ($data_to_validate['numIncludeChecked'] == "true"){
-            if (!is_numeric($data_to_validate['numIncluded']) ||
-                intval($data_to_validate['numIncluded']) < 0 ||
-                intval($data_to_validate['numIncluded']) == 0
-            ) {
-                return array(
-                    "Error" => "Number to include must be a positive whole number for this to work!",
-                    "input_value" => "You input: " . $data_to_validate['numIncluded']);
-            }
-        }
-        # Just return original Data if nothing bad happens
-        return $data_to_validate;
-    }
+
     public function make_password($data){
         /**
         Public method to generate an xkcd-like password

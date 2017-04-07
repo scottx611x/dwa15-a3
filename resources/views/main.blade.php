@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('content')
+@section('main')
     <div class="container">
         <h1>xkcd password generator</h1>
         <a href="https://xkcd.com/936/">
@@ -15,7 +15,7 @@
 
                 <div id="number-input">
                     <label>Number to include in password:</label>
-                    <input type="number" id='numIncluded'/>
+                    <input type="number" id='numIncluded' value="0"/>
                 </div>
             </label>
             <label>
@@ -46,6 +46,8 @@
         <div id="pass-container" class="modal-body">
         </div>
     </div>
+
+
     <div id="generated-error" class="modal fade alert-danger error-display">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -53,8 +55,6 @@
         </div>
         <br>
         <div id="error-container" class="modal-body">
-        </div>
-        <div id="user-input-container" class="modal-body">
         </div>
     </div>
 @endsection

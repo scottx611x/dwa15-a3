@@ -10,6 +10,6 @@
     <script src="{{ asset('/js/get.js') }}"></script>
 </head>
     <body>
-        @yield('content')
+        @yield('main')
     </body>
 </html>
